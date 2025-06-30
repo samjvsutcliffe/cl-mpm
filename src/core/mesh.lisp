@@ -649,8 +649,8 @@
       ((> n 1)
        (let ((start-point
                (magicl:.+
-                (magicl:scale! (cl-mpm/utils:vector-from-list (list -0.5d0 -0.5d0)) h)
-                (magicl:scale! (cl-mpm/utils:vector-from-list (list 0.5d0 0.5d0)) spaceing)
+                (magicl:scale! (cl-mpm/utils:vector-from-list (list -0.5d0 -0.5d0 0d0)) h)
+                (magicl:scale! (cl-mpm/utils:vector-from-list (list 0.5d0 0.5d0 0d0)) spaceing)
                 )
                ))
          ;; (break)
@@ -662,7 +662,7 @@
                       (magicl:scale!
                        (cl-mpm/utils:vector-from-list (mapcar
                                                        (lambda (x) (coerce x 'double-float))
-                                                       (list x y))) spaceing
+                                                       (list x y 0d0))) spaceing
                        )
                       start-point))))))))
 

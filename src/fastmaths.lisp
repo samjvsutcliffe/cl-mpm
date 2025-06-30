@@ -1194,14 +1194,35 @@
           do (setf w (%lambert-w-0 w z)))
     w))
 
+;(defun lambert-w-0 (z)
+;  (let ((w 1d0)
+;        (tol 1d-1))
+;    (loop for i from 0 to 10000
+;          while (and
+;                 (> w 0d0)
+;                 (> (abs (- z (* w (exp w)))) tol))
+;          do (setf w (%lambert-w-log-0 w z)))
+;    (when (> (abs (- z (* w (exp w)))) tol)
+;      (error "Lambert W failed to solve"))
+;    w))
+
 (defun lambert-w-0 (z)
+  (lambert-w-0-halley z))
+
+
+(defun lambert-w-0-halley (z)
   (let ((w 1d0)
         (tol 1d-1))
-    (loop for i from 0 to 10000
+    (loop for i from 0 to 1000
           while (and
                  (> w 0d0)
                  (> (abs (- z (* w (exp w)))) tol))
-          do (setf w (%lambert-w-log-0 w z)))
+          do (let* ((W1 (* w (exp w)))
+                   (W2 (* (1+ w) (exp w)))
+                   )
+               ;(setf w (%lambert-w-log-0 w z))
+               (decf w (/ (- W1 z) (- W2 (/ (* (+ w 2) (- W1 z)) (+ 2 (* 2 w))))))
+               ))
     (when (> (abs (- z (* w (exp w)))) tol)
       (error "Lambert W failed to solve"))
     w))

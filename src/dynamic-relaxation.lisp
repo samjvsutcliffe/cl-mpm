@@ -384,11 +384,31 @@
               while (and *run-convergance*
                          (not converged))
               do
-                 (progn
+                 (let ((energy-first 0d0) 
+                       (energy-last 0d0))
                    (dotimes (j substeps)
                      (setf cl-mpm/penalty::*debug-force* 0d0)
                      (cl-mpm:update-sim sim)
-                     (incf *work* (estimate-power-norm sim)))
+                     (incf *work* (estimate-power-norm sim))
+                     (let ((energy (estimate-energy-norm sim)))
+                        (when t
+                          (if (and
+                               (> energy-last energy-first)
+                               (> energy-last energy))
+                              (progn
+                                (when (= 0 rank)
+                                    (format t "Peak found resetting KE - ~E ~E ~E~%" energy-first energy-last energy))
+                                ;(cl-mpm::zero-grid-velocity (cl-mpm:sim-mesh sim))
+                                (cl-mpm:iterate-over-mps
+                                 mps
+                                 (lambda (mp)
+                                   (cl-mpm/fastmaths:fast-zero (cl-mpm/particle:mp-velocity mp))))
+                                (setf energy-first 0d0
+                                      energy-last 0d0
+                                      energy 0d0))
+                              (progn
+                                (setf energy-first energy-last)
+                                (setf energy-last energy))))))
 
                    (setf load (cl-mpm/mpi::mpi-sum cl-mpm/penalty::*debug-force*))
                    (setf energy-total (estimate-energy-norm sim))
