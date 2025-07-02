@@ -28,8 +28,8 @@
            (incf mass (cl-mpm/mesh:node-mass n))
            (incf energy
                  (*
-                  ;; (/ (cl-mpm/mesh::node-volume n) (cl-mpm/mesh::node-volume-true n))
-                  (cl-mpm/mesh:node-mass n)
+                  (/ (cl-mpm/mesh::node-volume n) (cl-mpm/mesh::node-volume-true n))
+                  ;(cl-mpm/mesh:node-mass n)
                   (cl-mpm/mesh::node-mass n)
                   (cl-mpm/fastmaths::mag-squared (cl-mpm/mesh::node-velocity n))
                   ))))))
@@ -50,8 +50,8 @@
               (incf mass (cl-mpm/mesh:node-mass n))
               (incf energy
                     (*
-                     ;; (/ (cl-mpm/mesh::node-volume n) (cl-mpm/mesh::node-volume-true n))
-                     (cl-mpm/mesh:node-mass n)
+                     (/ (cl-mpm/mesh::node-volume n) (cl-mpm/mesh::node-volume-true n))
+                     ;(cl-mpm/mesh:node-mass n)
                      (cl-mpm/mesh::node-mass n)
                      (cl-mpm/fastmaths::mag-squared (cl-mpm/mesh::node-velocity n))
                      )))))))
@@ -75,8 +75,8 @@
                    (*
                     dt
                     ;; (cl-mpm/mesh::node-volume n)
-                    ;; (/ (cl-mpm/mesh::node-volume n) (cl-mpm/mesh::node-volume-true n))
-                    (cl-mpm/mesh:node-mass n)
+                    (/ (cl-mpm/mesh::node-volume n) (cl-mpm/mesh::node-volume-true n))
+                    ;(cl-mpm/mesh:node-mass n)
                     (cl-mpm/fastmaths:dot
                      (cl-mpm/mesh::node-velocity n)
                      (cl-mpm/mesh::node-external-force n))
@@ -101,8 +101,8 @@
                       (*
                        dt
                        ;; (cl-mpm/mesh::node-volume n)
-                       (cl-mpm/mesh:node-mass n)
-                       ;; (/ (cl-mpm/mesh::node-volume n) (cl-mpm/mesh::node-volume-true n))
+                       ;(cl-mpm/mesh:node-mass n)
+                       (/ (cl-mpm/mesh::node-volume n) (cl-mpm/mesh::node-volume-true n))
                        (cl-mpm/fastmaths:dot
                         (cl-mpm/mesh::node-velocity n)
                         (cl-mpm/mesh::node-external-force n))
@@ -144,15 +144,15 @@
                (setf nmax (+
                            nmax
                            (*
-                            (cl-mpm/mesh:node-mass node)
-                            ;; (/ (cl-mpm/mesh::node-volume node) (cl-mpm/mesh::node-volume-true node))
+                            ;(cl-mpm/mesh:node-mass node)
+                            (/ (cl-mpm/mesh::node-volume node) (cl-mpm/mesh::node-volume-true node))
                             (cl-mpm/fastmaths::mag-squared
                              (cl-mpm/fastmaths::fast-.+-vector f-ext f-int))))
                      dmax (+
                            dmax
                            (*
-                            (cl-mpm/mesh:node-mass node)
-                            ;; (/ (cl-mpm/mesh::node-volume node) (cl-mpm/mesh::node-volume-true node))
+                            ;(cl-mpm/mesh:node-mass node)
+                            (/ (cl-mpm/mesh::node-volume node) (cl-mpm/mesh::node-volume-true node))
                             (cl-mpm/fastmaths::mag-squared
                              f-ext))))))))))
     (when (> dmax 0d0)

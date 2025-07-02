@@ -453,7 +453,9 @@
                                  (acc cl-mpm/particle::mp-acceleration)
                                  (nc cl-mpm/particle::mp-cached-nodes))
                     mp
-                  (let* ((mapped-vel (cl-mpm/utils:vector-zeros)))
+                  (let* ((mapped-vel (cl-mpm/utils:vector-zeros))
+                         (svp-sum 0d0))
+                     (declare (double-float svp-sum))
                     ;; (declare (dynamic-extent mapped-vel))
                     (progn
                       ;;With special operations we need to reset some params for g2p
@@ -480,6 +482,7 @@
                          (when node-active
                            (cl-mpm/fastmaths::fast-fmacc mapped-vel node-vel svp)
                            (cl-mpm/fastmaths::fast-fmacc acc node-acc svp)
+                           (incf svp-sum svp)
                            ;; (incf temp (* svp node-scalar))
                            ;;With special operations we want to include this operation
                            #+cl-mpm-special (special-g2p mesh mp node svp grads)
@@ -487,6 +490,9 @@
                          )
                        ;; (g2p-mp-node mp node svp grads)
                        ))
+                    ;;Re-weight to fix mass-filter issues
+                    (cl-mpm/fastmaths:fast-scale! mapped-vel (/ 1d0 svp-sum))
+                    (cl-mpm/fastmaths:fast-scale! acc (/ 1d0 svp-sum))
                     ;;Update particle
                     (progn
                       ;;Invalidate shapefunction/gradient cache
@@ -1017,9 +1023,9 @@ This allows for a non-physical but viscous damping scheme that is robust to GIMP
           (cl-mpm/ext:kirchoff-update strain df)
           ;; (cl-mpm/fastmaths:fast-.- strain strain-rate strain-rate)
           ;;Post multiply to turn to eng strain
-          (setf volume (* volume (the double-float (cl-mpm/fastmaths:det-3x3 df))))
+          ;(setf volume (* volume (the double-float (cl-mpm/fastmaths:det-3x3 df))))
           ;; (setf volume (* volume-0 (the double-float (cl-mpm/fastmaths:det-3x3 def))))
-          ;; (setf volume (* volume (the double-float dj)))
+          (setf volume (* volume (the double-float dj)))
           (when (<= volume 0d0)
             (error "Negative volume"))
           ))))

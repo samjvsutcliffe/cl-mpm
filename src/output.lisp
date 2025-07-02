@@ -553,9 +553,9 @@
           (cl-mpm/output::save-parameter "eps_zx" (magicl:tref (cl-mpm/particle:mp-strain mp) 4 0)))
 
         ;; (save-parameter "temp" (cl-mpm/particle::mp-true-visc mp))
-        (save-parameter "j" (magicl:det (cl-mpm/particle::mp-deformation-gradient mp)))
-        (save-parameter "dfdebug" (cl-mpm/particle::mp-debug-j mp))
-        (save-parameter "df0debug" (cl-mpm/particle::mp-debug-j-gather mp))
+        ;(save-parameter "j" (magicl:det (cl-mpm/particle::mp-deformation-gradient mp)))
+        ;(save-parameter "dfdebug" (cl-mpm/particle::mp-debug-j mp))
+        ;(save-parameter "df0debug" (cl-mpm/particle::mp-debug-j-gather mp))
 
         (save-parameter "size_x" (magicl:tref (cl-mpm/particle::mp-domain-size mp) 0 0))
         (save-parameter "size_y" (magicl:tref (cl-mpm/particle::mp-domain-size mp) 1 0))
@@ -567,13 +567,6 @@
         (cl-mpm/output::save-parameter "fric-x" (magicl:tref (cl-mpm/particle::mp-penalty-frictional-force mp) 0 0))
         (cl-mpm/output::save-parameter "fric-y" (magicl:tref (cl-mpm/particle::mp-penalty-frictional-force mp) 1 0))
         (cl-mpm/output::save-parameter "pressure" (cl-mpm/particle::mp-pressure mp))
-        ;; (save-parameter "pressure" (cl-mpm/particle::mp-pressure mp))
-        ;; (when (= (cl-mpm/mesh:mesh-nd mesh) 3)
-        ;;   (save-parameter "sig_zz" (magicl:tref (cl-mpm/particle:mp-stress mp) 2 0))
-        ;;   (save-parameter "size_z" (magicl:tref (cl-mpm/particle::mp-domain-size mp) 2 0))
-        ;;   (save-parameter "sig_zx" (magicl:tref (cl-mpm/particle:mp-stress mp) 4 0))
-        ;;   (save-parameter "sig_xy" (magicl:tref (cl-mpm/particle:mp-stress mp) 5 0))
-        ;;   )
         (save-parameter
          "plastic_strain"
          (if (slot-exists-p mp 'cl-mpm/particle::yield-func)
@@ -602,15 +595,6 @@
          (if (slot-exists-p mp 'cl-mpm/particle::phi)
              (* (cl-mpm/particle::mp-phi mp) (/ 180 pi))
              0d0))
-
-         ;; (multiple-value-bind (l v)
-         ;;     (cl-mpm/utils:eig (cl-mpm/utils:voigt-to-matrix (cl-mpm/particle::mp-strain-plastic mp)))
-         ;;   (destructuring-bind (s1 s2 s3) l
-         ;;     (sqrt
-         ;;      (/ (+ (expt (- s1 s2) 2d0)
-         ;;            (expt (- s2 s3) 2d0)
-         ;;            (expt (- s3 s1) 2d0)
-         ;;            ) 2d0)))))
         (save-parameter
          "f"
          (if (slot-exists-p mp 'cl-mpm/particle::yield-func)

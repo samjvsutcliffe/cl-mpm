@@ -377,13 +377,13 @@
   )
 
 (defmethod reinitialize-instance :after ((p particle) &key)
-  ;; (with-accessors ((domain mp-domain-size)
-  ;;                  (domain-true mp-true-domain))
-  ;;     p
-  ;;   (setf
-  ;;    (magicl:tref domain-true 0 0) (varef domain 0)
-  ;;    (magicl:tref domain-true 1 1) (varef domain 1)
-  ;;    (magicl:tref domain-true 2 2) (varef domain 2)))
+  (with-accessors ((domain mp-domain-size)
+                    (domain-true mp-true-domain))
+       p
+     (setf
+      (magicl:tref domain-true 0 0) (varef domain 0)
+      (magicl:tref domain-true 1 1) (varef domain 1)
+      (magicl:tref domain-true 2 2) (varef domain 2)))
   )
 
 (defmethod initialize-instance :after ((p particle-elastic) &key)

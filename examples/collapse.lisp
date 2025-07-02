@@ -167,25 +167,27 @@
                 block-size
                 (mapcar (lambda (e) (* e e-scale mp-scale)) block-size)
                 density
-
-                ;'cl-mpm/particle::particle-finite-viscoelastic-ice
-                ;; 'cl-mpm/particle::particle-finite-viscoelastic
-                'cl-mpm/particle::particle-elastic-damage-delayed
-                ;; ;; 'cl-mpm/particle::particle-elastic
-                ;; 'cl-mpm/particle::particle-vm
-                :E 1d9
+                'cl-mpm/particle::particle-elastic
+                :E 1d6
                 :nu 0.24d0
-                ;:viscosity 1.11d6
-                ;; :viscosity 1d08
-                ;; :visc-power 3d0
-                ;; :rho 30d3
-                :initiation-stress 1d4
-                :delay-time 1d0
-                :delay-exponent 1d0
-                :local-length h
-                :ductility 10d0
+                ;; ;'cl-mpm/particle::particle-finite-viscoelastic-ice
+                ;; ;; 'cl-mpm/particle::particle-finite-viscoelastic
+                ;; 'cl-mpm/particle::particle-elastic-damage-delayed
+                ;; ;; ;; 'cl-mpm/particle::particle-elastic
+                ;; ;; 'cl-mpm/particle::particle-vm
+                ;; :E 1d9
+                ;; :nu 0.24d0
+                ;; ;:viscosity 1.11d6
+                ;; ;; :viscosity 1d08
+                ;; ;; :visc-power 3d0
+                ;; ;; :rho 30d3
+                ;; :initiation-stress 1d4
+                ;; :delay-time 1d0
+                ;; :delay-exponent 1d0
+                ;; :local-length h
+                ;; :ductility 10d0
                 :gravity -10.0d0
-                :gravity-axis (cl-mpm/utils:vector-from-list '(0d0 1d0 0d0))
+                ;; :gravity-axis (cl-mpm/utils:vector-from-list '(0d0 1d0 0d0))
                 ))))
       ;; (format t "Charictoristic time ~E~%" (/ ))
       (setf (cl-mpm:sim-allow-mp-split sim) t)
@@ -233,7 +235,7 @@
         '(0 nil 0)
         '(0 nil 0)
         '(nil 0 0)
-        '(0 0 0)
+        '(nil 0 0)
         '(nil nil 0)
         '(nil nil 0)))
       ;; (setf
