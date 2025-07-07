@@ -28,6 +28,7 @@
            (incf mass (cl-mpm/mesh:node-mass n))
            (incf energy
                  (*
+                  0.5d0
                   (/ (cl-mpm/mesh::node-volume n) (cl-mpm/mesh::node-volume-true n))
                   ;(cl-mpm/mesh:node-mass n)
                   (cl-mpm/mesh::node-mass n)
@@ -50,6 +51,7 @@
               (incf mass (cl-mpm/mesh:node-mass n))
               (incf energy
                     (*
+                     0.5d0
                      (/ (cl-mpm/mesh::node-volume n) (cl-mpm/mesh::node-volume-true n))
                      ;(cl-mpm/mesh:node-mass n)
                      (cl-mpm/mesh::node-mass n)
@@ -146,18 +148,18 @@
                            (*
                             ;(cl-mpm/mesh:node-mass node)
                             (/ (cl-mpm/mesh::node-volume node) (cl-mpm/mesh::node-volume-true node))
-                            (cl-mpm/fastmaths::mag-squared
+                            (cl-mpm/fastmaths::mag
                              (cl-mpm/fastmaths::fast-.+-vector f-ext f-int))))
                      dmax (+
                            dmax
                            (*
                             ;(cl-mpm/mesh:node-mass node)
                             (/ (cl-mpm/mesh::node-volume node) (cl-mpm/mesh::node-volume-true node))
-                            (cl-mpm/fastmaths::mag-squared
+                            (cl-mpm/fastmaths::mag
                              f-ext))))))))))
     (when (> dmax 0d0)
-      (setf oobf (sqrt (/ nmax dmax)))
-      ;; (setf oobf (/ nmax dmax))
+      ;(setf oobf (sqrt (/ nmax dmax)))
+      (setf oobf (/ nmax dmax))
       )
     ;; (setf oobf (/ oobf-norm (lparallel:pmap-reduce #'cl-mpm/particle:mp-mass #'+ (cl-mpm:sim-mps sim))))
     ;; (setf oobf oobf-norm)
@@ -194,18 +196,18 @@
                              nmax
                              (*
                               (/ (cl-mpm/mesh::node-volume node) (cl-mpm/mesh::node-volume-true node))
-                              (cl-mpm/fastmaths::mag-squared
+                              (cl-mpm/fastmaths::mag
                                (cl-mpm/fastmaths::fast-.+-vector f-ext f-int))))
                        dmax (+
                              dmax
                              (*
                               (/ (cl-mpm/mesh::node-volume node) (cl-mpm/mesh::node-volume-true node))
-                              (cl-mpm/fastmaths::mag-squared f-ext)))))))))))
+                              (cl-mpm/fastmaths::mag f-ext)))))))))))
 
     (setf nmax (cl-mpm/mpi::mpi-sum nmax))
     (setf dmax (cl-mpm/mpi::mpi-sum dmax))
     (if (> dmax 0d0)
-        (setf oobf (sqrt (/ nmax dmax)))
+        (setf oobf (/ nmax dmax))
         ;; (setf oobf (/ nmax dmax))
       ;;Odd case where we have no forces?
       (setf oobf sb-ext:double-float-negative-infinity))

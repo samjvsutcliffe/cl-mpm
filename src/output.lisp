@@ -538,12 +538,12 @@
         (cl-mpm/output::save-parameter "eps_xx" (magicl:tref (cl-mpm/particle:mp-strain mp) 0 0))
         (cl-mpm/output::save-parameter "eps_yy" (magicl:tref (cl-mpm/particle:mp-strain mp) 1 0))
         (cl-mpm/output::save-parameter "eps_xy" (magicl:tref (cl-mpm/particle:mp-strain mp) 5 0))
-        (save-parameter "eps_1"
-                        (multiple-value-bind (l v) (cl-mpm/utils::eig (cl-mpm/utils:voight-to-matrix (cl-mpm/particle:mp-stress mp)))
-                          (loop for sii in l maximize sii)))
+        ;(save-parameter "eps_1"
+        ;                (multiple-value-bind (l v) (cl-mpm/utils::eig (cl-mpm/utils:voight-to-matrix (cl-mpm/particle:mp-stress mp)))
+        ;                  (loop for sii in l maximize sii)))
 
-        (cl-mpm/output::save-parameter "boundary" (cl-mpm/particle::mp-boundary mp))
-        (cl-mpm/output::save-parameter "viscosity" (optional-slot-access 'cl-mpm/particle::viscosity mp))
+        ;(cl-mpm/output::save-parameter "boundary" (cl-mpm/particle::mp-boundary mp))
+        ;(cl-mpm/output::save-parameter "viscosity" (optional-slot-access 'cl-mpm/particle::viscosity mp))
 
         ;; (cl-mpm/output::save-parameter "i-1" (cl-mpm/utils::trace-voigt (cl-mpm/particle::mp-stress mp)))
 
@@ -561,12 +561,12 @@
         (save-parameter "size_y" (magicl:tref (cl-mpm/particle::mp-domain-size mp) 1 0))
         (when (= nd 3)
           (save-parameter "size_z" (magicl:tref (cl-mpm/particle::mp-domain-size mp) 2 0)))
-        (cl-mpm/output::save-parameter "fric-contact" (if (cl-mpm/particle::mp-penalty-contact-step mp) 1 0))
-        (cl-mpm/output::save-parameter "fric-contact-stick" (if (cl-mpm/particle::mp-penalty-friction-stick mp) 1 0))
-        (cl-mpm/output::save-parameter "fric-normal" (cl-mpm/particle::mp-penalty-normal-force mp))
-        (cl-mpm/output::save-parameter "fric-x" (magicl:tref (cl-mpm/particle::mp-penalty-frictional-force mp) 0 0))
-        (cl-mpm/output::save-parameter "fric-y" (magicl:tref (cl-mpm/particle::mp-penalty-frictional-force mp) 1 0))
-        (cl-mpm/output::save-parameter "pressure" (cl-mpm/particle::mp-pressure mp))
+        ;(cl-mpm/output::save-parameter "fric-contact" (if (cl-mpm/particle::mp-penalty-contact-step mp) 1 0))
+        ;(cl-mpm/output::save-parameter "fric-contact-stick" (if (cl-mpm/particle::mp-penalty-friction-stick mp) 1 0))
+        ;(cl-mpm/output::save-parameter "fric-normal" (cl-mpm/particle::mp-penalty-normal-force mp))
+        ;(cl-mpm/output::save-parameter "fric-x" (magicl:tref (cl-mpm/particle::mp-penalty-frictional-force mp) 0 0))
+        ;(cl-mpm/output::save-parameter "fric-y" (magicl:tref (cl-mpm/particle::mp-penalty-frictional-force mp) 1 0))
+        ;(cl-mpm/output::save-parameter "pressure" (cl-mpm/particle::mp-pressure mp))
         (save-parameter
          "plastic_strain"
          (if (slot-exists-p mp 'cl-mpm/particle::yield-func)
@@ -575,26 +575,26 @@
              )
          )
 
-        (cl-mpm/output::save-parameter "plastic-iterations"
-                                       (if (slot-exists-p mp 'cl-mpm/particle::plastic-iterations)
-                                           (cl-mpm/particle::mp-plastic-iterations mp)
-                                           0d0))
+        ;(cl-mpm/output::save-parameter "plastic-iterations"
+        ;                               (if (slot-exists-p mp 'cl-mpm/particle::plastic-iterations)
+        ;                                   (cl-mpm/particle::mp-plastic-iterations mp)
+        ;                                   0d0))
 
-        (cl-mpm/output::save-parameter
-         "rho"
-         (if (slot-exists-p mp 'cl-mpm/particle::rho)
-             (cl-mpm/particle::mp-rho mp)
-             0d0))
-        (cl-mpm/output::save-parameter
-         "c"
-         (if (slot-exists-p mp 'cl-mpm/particle::c)
-             (cl-mpm/particle::mp-c mp)
-             0d0))
-        (cl-mpm/output::save-parameter
-         "phi"
-         (if (slot-exists-p mp 'cl-mpm/particle::phi)
-             (* (cl-mpm/particle::mp-phi mp) (/ 180 pi))
-             0d0))
+        ;(cl-mpm/output::save-parameter
+        ; "rho"
+        ; (if (slot-exists-p mp 'cl-mpm/particle::rho)
+        ;     (cl-mpm/particle::mp-rho mp)
+        ;     0d0))
+        ;(cl-mpm/output::save-parameter
+        ; "c"
+        ; (if (slot-exists-p mp 'cl-mpm/particle::c)
+        ;     (cl-mpm/particle::mp-c mp)
+        ;     0d0))
+        ;(cl-mpm/output::save-parameter
+        ; "phi"
+        ; (if (slot-exists-p mp 'cl-mpm/particle::phi)
+        ;     (* (cl-mpm/particle::mp-phi mp) (/ 180 pi))
+        ;     0d0))
         (save-parameter
          "f"
          (if (slot-exists-p mp 'cl-mpm/particle::yield-func)

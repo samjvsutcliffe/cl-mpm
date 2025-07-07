@@ -459,7 +459,7 @@
                     ;; (declare (dynamic-extent mapped-vel))
                     (progn
                       ;;With special operations we need to reset some params for g2p
-                      ;; (reset-mps-g2p mp)
+                      ;;(reset-mps-g2p mp)
                       ;(setf temp 0d0)
                       )
                     (cl-mpm/fastmaths::fast-zero acc)
@@ -712,6 +712,9 @@
 
 (declaim (notinline calculate-forces)
          (ftype (function (cl-mpm/mesh::node double-float double-float double-float) (vaules)) calculate-forces))
+
+(defparameter *VISCOUS-DAMPING-REAL* nil)
+
 (defun calculate-forces (node damping dt mass-scale)
   "Update forces and nodal velocities with viscous damping"
   (when (cl-mpm/mesh:node-active node)
@@ -729,9 +732,11 @@
         ;; (cl-mpm/fastmaths::fast-.+-vector force-int force-ext force)
         (cl-mpm/fastmaths::fast-.+-vector force-int force force)
         (cl-mpm/fastmaths::fast-.+-vector force-ext force force)
-        ;; (cl-mpm/fastmaths:fast-fmacc acc vel (/ (* damping -1d0) 1d0))
+        (cl-mpm/fastmaths:fast-fmacc force vel (* mass damping -1d0))
+        (when *VISCOUS-DAMPING-REAL*
+            (cl-mpm/fastmaths:fast-fmacc force-int vel (* mass damping -1d0)))
         (cl-mpm/fastmaths:fast-fmacc acc force (/ 1d0 (* mass mass-scale)))
-        (cl-mpm/fastmaths:fast-fmacc acc vel (/ (* damping -1d0) mass-scale))
+        ;(cl-mpm/fastmaths:fast-fmacc acc vel (/ (* damping -1d0) mass-scale))
         ;; (cl-mpm/fastmaths:fast-fmacc acc vel (/ (* damping -1d0) (sqrt mass-scale)))
         ;; (cl-mpm/fastmaths:fast-fmacc acc vel (* damping -1d0))
         (cl-mpm/fastmaths:fast-fmacc vel acc dt)
