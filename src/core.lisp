@@ -729,16 +729,12 @@
       (progn
         (cl-mpm/fastmaths:fast-zero acc)
         ;;Set acc to f/m
-        ;; (cl-mpm/fastmaths::fast-.+-vector force-int force-ext force)
         (cl-mpm/fastmaths::fast-.+-vector force-int force force)
         (cl-mpm/fastmaths::fast-.+-vector force-ext force force)
         (cl-mpm/fastmaths:fast-fmacc force vel (* mass damping -1d0))
         (when *VISCOUS-DAMPING-REAL*
             (cl-mpm/fastmaths:fast-fmacc force-int vel (* mass damping -1d0)))
         (cl-mpm/fastmaths:fast-fmacc acc force (/ 1d0 (* mass mass-scale)))
-        ;(cl-mpm/fastmaths:fast-fmacc acc vel (/ (* damping -1d0) mass-scale))
-        ;; (cl-mpm/fastmaths:fast-fmacc acc vel (/ (* damping -1d0) (sqrt mass-scale)))
-        ;; (cl-mpm/fastmaths:fast-fmacc acc vel (* damping -1d0))
         (cl-mpm/fastmaths:fast-fmacc vel acc dt)
         )))
   (values))

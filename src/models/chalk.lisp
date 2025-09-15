@@ -730,8 +730,8 @@
       (declare (double-float damage damage-inc critical-damage k ybar tau dt))
       (when t;(<= damage 1d0)
         ;;Damage increment holds the delocalised driving factor
-        (setf ybar damage-inc)
-        (setf damage-inc 0d0)
+        ;(setf ybar damage-inc)
+        ;(setf damage-inc 0d0)
         (let ((a tau-exp)
               (k0 init-stress))
           (when (> ybar k0)
@@ -744,6 +744,8 @@
                                (/ (the double-float (max 0d0 (- ybar k)))
                                   k0) a))
                            tau))))))
+        (setf ybar damage-inc)
+        (setf damage-inc 0d0)
         (let ((new-damage
                 (max
                  damage

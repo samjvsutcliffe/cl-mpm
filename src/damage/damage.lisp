@@ -237,8 +237,7 @@
        mps
        (lambda (mp)
          (when (typep mp 'cl-mpm/particle:particle-damage)
-           (damage-model-calculate-y mp dt)
-           )))
+           (damage-model-calculate-y mp dt))))
 
       (if non-local-damage
           (progn
